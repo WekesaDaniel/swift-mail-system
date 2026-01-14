@@ -1,1 +1,1 @@
-project_id = "jhtkkhqizmxwqypwugau"
+project_id = ${{ secrets.SUPABASE_PUBLIC_ID }}
