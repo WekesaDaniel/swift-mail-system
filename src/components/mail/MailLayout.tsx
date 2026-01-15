@@ -134,9 +134,9 @@ export function MailLayout() {
             </div>
 
             <EmailList
-              emails={filteredEmails}
+              emails={emails.filter(e => e.folder_id === selectedFolderId)}
               selectedEmailId={selectedEmail?.id || null}
-              onEmailSelect={handleEmailSelect}
+              onEmailSelect={setSelectedEmail}
               isLoading={isLoading}
             />
           </div>
