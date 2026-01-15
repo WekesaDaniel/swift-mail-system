@@ -41,11 +41,6 @@ export function Sidebar({ selectedFolderId, onFolderSelect, onCompose }: Sidebar
   const { data: allEmails = [] } = useEmails();
   const { user, signOut } = useAuth();
 
-  // Remove duplicate folder names (keep first occurrence)
-  const uniqueFolders = Array.from(
-    new Map(folders.map(f => [f.name.toLowerCase(), f])).values()
-  );
-
   const getUnreadCount = (folderId: string) => {
     return allEmails.filter(e => e.folder_id === folderId && !e.is_read).length;
   };
@@ -91,7 +86,7 @@ export function Sidebar({ selectedFolderId, onFolderSelect, onCompose }: Sidebar
       {/* Folders */}
       <nav className="flex-1 px-3 overflow-y-auto custom-scrollbar">
         <div className="space-y-1">
-          {uniqueFolders.map(folder => {
+          {folders.map((folder) => {
             const Icon = getIcon(folder.icon);
             const unreadCount = getUnreadCount(folder.id);
             const isSelected = selectedFolderId === folder.id;
@@ -100,13 +95,10 @@ export function Sidebar({ selectedFolderId, onFolderSelect, onCompose }: Sidebar
               <button
                 key={folder.id}
                 onClick={() => onFolderSelect(folder.id)}
-                className={cn(
-                  'folder-item w-full flex items-center gap-2 p-3 text-sm rounded-md hover:bg-muted transition-colors',
-                  isSelected && 'bg-muted font-semibold'
-                )}
+                className={cn('folder-item w-full', isSelected && 'active')}
               >
                 <Icon className="w-5 h-5" />
-                <span className="flex-1 text-left truncate">{folder.name}</span>
+                <span className="flex-1 text-left">{folder.name}</span>
                 {unreadCount > 0 && (
                   <span className="email-badge">{unreadCount}</span>
                 )}
