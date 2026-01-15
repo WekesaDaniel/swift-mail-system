@@ -5,7 +5,7 @@ A secure, scalable web-based email system for personal and SMB use, featuring a 
 ## 🚀 Live Demos
 
 - **Production**: [https://fastmailpro.lovable.app](https://fastmailpro.lovable.app)
-- **Vercel**: [https://your-vercel-deployment.vercel.app](https://your-vercel-deployment.vercel.app)
+- **Vercel**: [https://swift-mail-system.vercel.app/](https://swift-mail-system.vercel.app/)))
 
 ## ✨ Features
 
