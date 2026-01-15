@@ -6,6 +6,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { useSendEmail, useSaveDraft, useFolders, useContacts } from '@/hooks/useEmails';
 import { Email } from '@/types/email';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+// Email validation schema
+const emailSchema = z.string().email();
+
+const isValidEmail = (email: string): boolean => {
+  const result = emailSchema.safeParse(email);
+  return result.success;
+};
 import {
   Command,
   CommandEmpty,
@@ -103,21 +113,33 @@ export function ComposeModal({ isOpen, onClose, replyTo }: ComposeModalProps) {
     const trimmed = email.trim();
     if (!trimmed) return;
     
+    // Validate email format before adding
+    if (!isValidEmail(trimmed)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+    
     switch (type) {
       case 'to':
         if (!to.includes(trimmed)) {
           setTo([...to, trimmed]);
+        } else {
+          toast.info('Email already added');
         }
         setToInput('');
         break;
       case 'cc':
         if (!cc.includes(trimmed)) {
           setCc([...cc, trimmed]);
+        } else {
+          toast.info('Email already added');
         }
         break;
       case 'bcc':
         if (!bcc.includes(trimmed)) {
           setBcc([...bcc, trimmed]);
+        } else {
+          toast.info('Email already added');
         }
         break;
     }
