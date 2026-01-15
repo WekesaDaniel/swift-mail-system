@@ -1,73 +1,105 @@
-# Welcome to your Lovable project
+# FastMail Pro
 
-## Project info
+A secure, scalable web-based email system for personal and SMB use, featuring a modern React frontend with a serverless backend.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🚀 Live Demos
 
-## How can I edit this code?
+- **Production**: [https://fastmailpro.lovable.app](https://fastmailpro.lovable.app)
+- **Vercel**: [https://your-vercel-deployment.vercel.app](https://your-vercel-deployment.vercel.app)
 
-There are several ways of editing your application.
+## ✨ Features
 
-**Use Lovable**
+- 📧 Full email management (compose, send, receive, organize)
+- 📁 Folder organization (Inbox, Sent, Drafts, Trash, Starred)
+- 🔍 Email search functionality
+- 👥 Contact management
+- 🔐 Secure authentication (email/password)
+- 📱 Responsive design for desktop and mobile
+- 🌙 Modern, clean UI with dark mode support
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## 🛠️ Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React, TypeScript, Vite
+- **Styling**: Tailwind CSS, shadcn/ui
+- **Backend**: Supabase (PostgreSQL, Auth, Edge Functions)
+- **State Management**: TanStack Query
+- **Routing**: React Router
 
-**Use your preferred IDE**
+## 📦 Installation
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js 18+ 
+- npm or bun
 
-Follow these steps:
+### Local Development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to project directory
+cd fastmail-pro
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🔧 Environment Variables
 
-**Use GitHub Codespaces**
+For local development or Vercel deployment, configure these environment variables:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
+VITE_SUPABASE_PROJECT_ID=your_project_id
+```
 
-## What technologies are used for this project?
+> **Note**: For Vercel deployments, add these as GitHub secrets and configure them in your Vercel project settings.
 
-This project is built with:
+## 📁 Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+├── components/
+│   ├── mail/           # Email-specific components
+│   │   ├── ComposeModal.tsx
+│   │   ├── EmailDetail.tsx
+│   │   ├── EmailList.tsx
+│   │   ├── MailLayout.tsx
+│   │   ├── SearchBar.tsx
+│   │   └── Sidebar.tsx
+│   └── ui/             # Reusable UI components (shadcn)
+├── hooks/              # Custom React hooks
+│   ├── useAuth.tsx
+│   └── useEmails.tsx
+├── integrations/       # External service integrations
+│   └── supabase/
+├── pages/              # Route pages
+├── types/              # TypeScript type definitions
+└── lib/                # Utility functions
+```
 
-## How can I deploy this project?
+## 🗄️ Database Schema
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+- **emails**: Store all email messages with metadata
+- **folders**: User email folders (Inbox, Sent, Drafts, etc.)
+- **contacts**: User contact list
+- **profiles**: User profile information
+- **audit_logs**: Security and activity logging
 
-## Can I connect a custom domain to my Lovable project?
+## 🔒 Security
 
-Yes, you can!
+- Row Level Security (RLS) enabled on all tables
+- Email validation with Zod
+- Secure authentication flow
+- User data isolation
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 📄 License
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+MIT License
