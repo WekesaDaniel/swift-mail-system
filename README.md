@@ -85,6 +85,30 @@ src/
 └── lib/                # Utility functions
 ```
 
+## 👥 Team
+
+### Presentation Layer (Frontend)
+- **Daniel**
+- **Lameck**
+
+### Application Layer (Backend/APIs)
+- **Josiah**
+- **Richard**
+
+### Data Layer (Backend)
+- **Arnold**
+- **Geoffrey**
+
+## 🌿 Branch Strategy
+
+| Branch | Deployment | Purpose |
+|--------|------------|---------|
+| `dev` | [Lovable](https://fastmailpro.lovable.app) | Development and testing |
+| `main` | [Vercel](https://your-vercel-deployment.vercel.app) | Production deployment |
+
+- **dev branch**: Used for Lovable deployment with automatic syncing
+- **main branch**: Used for Vercel production deployment with GitHub secrets for environment variables
+
 ## 🗄️ Database Schema
 
 - **emails**: Store all email messages with metadata
