@@ -110,44 +110,23 @@ export function useSendEmail() {
 
       if (error) throw error;
 
-      // 2. Deliver email to recipients' Inbox (all recipients: to, cc, bcc)
+      // 2. Deliver email to recipients using security definer function
+      // This bypasses RLS to allow cross-user email delivery
       const allRecipients = [...email.to, ...(email.cc || []), ...(email.bcc || [])];
       
       for (const recipientEmail of allRecipients) {
-        // Find recipient's profile by email
-        const { data: recipientProfile } = await supabase
-          .from('profiles')
-          .select('user_id')
-          .eq('email', recipientEmail)
-          .single();
-
-        if (recipientProfile) {
-          // Find recipient's Inbox folder
-          const { data: inboxFolder } = await supabase
-            .from('folders')
-            .select('id')
-            .eq('user_id', recipientProfile.user_id)
-            .eq('name', 'Inbox')
-            .single();
-
-          if (inboxFolder) {
-            // Create email in recipient's Inbox
-            await supabase.from('emails').insert({
-              user_id: recipientProfile.user_id,
-              folder_id: inboxFolder.id,
-              from_email: user.email!,
-              from_name: user.user_metadata?.full_name || user.email,
-              to_emails: email.to,
-              cc_emails: email.cc || [],
-              bcc_emails: email.bcc || [],
-              subject: email.subject,
-              body: email.body,
-              status: 'received',
-              received_at: sentAt,
-              is_read: false,
-            });
-          }
-        }
+        // Using type assertion as the function was just created
+        await (supabase.rpc as any)('deliver_email_to_recipient', {
+          p_recipient_email: recipientEmail,
+          p_from_email: user.email!,
+          p_from_name: user.user_metadata?.full_name || user.email,
+          p_to_emails: email.to,
+          p_cc_emails: email.cc || [],
+          p_bcc_emails: email.bcc || [],
+          p_subject: email.subject,
+          p_body: email.body,
+          p_sent_at: sentAt,
+        });
       }
 
       return data;
