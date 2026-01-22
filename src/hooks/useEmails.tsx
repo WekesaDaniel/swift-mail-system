@@ -115,18 +115,29 @@ export function useSendEmail() {
       const allRecipients = [...email.to, ...(email.cc || []), ...(email.bcc || [])];
       
       for (const recipientEmail of allRecipients) {
-        // Using type assertion as the function was just created
-        await (supabase.rpc as any)('deliver_email_to_recipient', {
-          p_recipient_email: recipientEmail,
-          p_from_email: user.email!,
-          p_from_name: user.user_metadata?.full_name || user.email,
-          p_to_emails: email.to,
-          p_cc_emails: email.cc || [],
-          p_bcc_emails: email.bcc || [],
-          p_subject: email.subject,
-          p_body: email.body,
-          p_sent_at: sentAt,
-        });
+        // Using type assertion as the function may not exist in generated types in some deployments
+        const { data: delivered, error: deliverError } = await (supabase.rpc as any)(
+          'deliver_email_to_recipient',
+          {
+            p_recipient_email: recipientEmail,
+            p_from_email: user.email!,
+            p_from_name: user.user_metadata?.full_name || user.email,
+            p_to_emails: email.to,
+            p_cc_emails: email.cc || [],
+            p_bcc_emails: email.bcc || [],
+            p_subject: email.subject,
+            p_body: email.body,
+            p_sent_at: sentAt,
+          }
+        );
+
+        // IMPORTANT: supabase-js does NOT throw on RPC errors by default
+        if (deliverError) throw deliverError;
+
+        // Function returns false when recipient isn't an in-app user or lacks Inbox folder
+        if (!delivered) {
+          toast.warning(`Delivery skipped for ${recipientEmail} (not an in-app user)`);
+        }
       }
 
       return data;
