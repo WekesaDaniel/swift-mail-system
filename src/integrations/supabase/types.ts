@@ -222,6 +222,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      deliver_email_to_recipient: {
+        Args: {
+          p_bcc_emails: string[]
+          p_body: string
+          p_cc_emails: string[]
+          p_from_email: string
+          p_from_name: string
+          p_recipient_email: string
+          p_sent_at: string
+          p_subject: string
+          p_to_emails: string[]
+        }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
